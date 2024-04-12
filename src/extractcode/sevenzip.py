@@ -63,7 +63,7 @@ sevenzip_errors = [
 UNKNOWN_ERROR = 'Unknown extraction error'
 
 
-def get_command_location(_cache=[]):
+def get_command_location(_cache=None):
     """
     Return the location of a 7zip loaded from either:
     - an environment variable ``EXTRACTCODE_7Z_PATH``,
@@ -71,6 +71,7 @@ def get_command_location(_cache=[]):
     - the system PATH.
     Raise an Exception if no 7Zip command can be found.
     """
+    _cache = [] if _cache is None else _cache
     if _cache:
         return _cache[0]
 

@@ -1736,10 +1736,11 @@ class LinksRepository:
         if not self.links:
             self.links = self.find_links()
 
-    def find_links(self, _CACHE=[]):
+    def find_links(self, _CACHE=None):
         """
         Return a list of link URLs found in the HTML page at `self.url`
         """
+        _CACHE = [] if _CACHE is None else _CACHE
         if _CACHE:
             return _CACHE
 
@@ -1790,7 +1791,8 @@ class LinksRepository:
         return links
 
     @classmethod
-    def from_url(cls, url=ABOUT_BASE_URL, _LINKS_REPO={}, use_cached_index=False):
+    def from_url(cls, url=ABOUT_BASE_URL, _LINKS_REPO=None, use_cached_index=False):
+        _LINKS_REPO = {} if _LINKS_REPO is None else _LINKS_REPO
         if url not in _LINKS_REPO:
             _LINKS_REPO[url] = cls(url=url, use_cached_index=use_cached_index)
         return _LINKS_REPO[url]
