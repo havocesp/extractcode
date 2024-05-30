@@ -167,13 +167,13 @@ def extract_files(
     """
     ignored = partial(ignore.is_ignored, ignores=ignore.default_ignores, unignores={})
     if TRACE:
-        logger.debug('extract:start: %(location)r recurse: %(recurse)r\n' % locals())
+        logger.debug('extract:start: %(location)r recurse: %(recurse)r\n', locals())
 
     abs_location = abspath(expanduser(location))
     for top, dirs, files in fileutils.walk(abs_location, ignored):
         if TRACE:
             logger.debug(
-                'extract:walk: top: %(top)r dirs: %(dirs)r files: r(files)r' % locals())
+                'extract:walk: top: %(top)r dirs: %(dirs)r files: r(files)r', locals())
 
         if not recurse:
             if TRACE:
@@ -190,7 +190,7 @@ def extract_files(
             if not recurse and extractcode.is_extraction_path(loc):
                 if TRACE:
                     logger.debug(
-                        'extract:walk not recurse: skipped  file: %(loc)r' % locals())
+                        'extract:walk not recurse: skipped  file: %(loc)r', locals())
                 continue
 
             if not extractcode.archive.should_extract(
@@ -200,12 +200,12 @@ def extract_files(
             ):
                 if TRACE:
                     logger.debug(
-                        'extract:walk: skipped file: not should_extract: %(loc)r' % locals())
+                        'extract:walk: skipped file: not should_extract: %(loc)r', locals())
                 continue
 
             target = join(abspath(top), extractcode.get_extraction_path(loc))
             if TRACE:
-                logger.debug('extract:target: %(target)r' % locals())
+                logger.debug('extract:target: %(target)r', locals())
 
             # extract proper
             for xevent in extract_file(
@@ -214,12 +214,12 @@ def extract_files(
                 kinds=kinds,
             ):
                 if TRACE:
-                    logger.debug('extract:walk:extraction event: %(xevent)r' % locals())
+                    logger.debug('extract:walk:extraction event: %(xevent)r', locals())
                 yield xevent
 
             if recurse:
                 if TRACE:
-                    logger.debug('extract:walk: recursing on target: %(target)r' % locals())
+                    logger.debug('extract:walk: recursing on target: %(target)r', locals())
                 for xevent in extract(
                     location=target,
                     kinds=kinds,
@@ -227,7 +227,7 @@ def extract_files(
                     ignore_pattern=ignore_pattern,
                 ):
                     if TRACE:
-                        logger.debug('extract:walk:recurse:extraction event: %(xevent)r' % locals())
+                        logger.debug('extract:walk:recurse:extraction event: %(xevent)r', locals())
                     yield xevent
 
 

@@ -208,7 +208,7 @@ def get_handlers(location):
         if TRACE_DEEP:
             logger.debug(
                 'get_handlers: processing %(location)s: '
-                'ftype: %(ftype)s, mtype: %(mtype)s ' % locals())
+                'ftype: %(ftype)s, mtype: %(mtype)s ', locals())
         for handler in archive_handlers:
             if not handler.extractors:
                 continue
@@ -247,7 +247,7 @@ def get_handlers(location):
             if type_matched or mime_matched or extension_matched:
                 if TRACE_DEEP:
                     handler_name = handler.name
-                    logger.debug('     get_handlers: yielding handler: %(handler_name)r' % locals())
+                    logger.debug('     get_handlers: yielding handler: %(handler_name)r', locals())
                 yield handler, type_matched, mime_matched, extension_matched
 
 
@@ -301,7 +301,7 @@ def score_handlers(handlers):
             handler_name = handler.name
             logger.debug(
                 '     score_handlers: yielding handler: %(handler_name)r, '
-                'score: %(score)d, extension_matched: %(extension_matched)r' % locals())
+                'score: %(score)d, extension_matched: %(extension_matched)r', locals())
 
         if score > 0:
             yield score, handler, extension_matched
@@ -380,7 +380,7 @@ def extract_twice(location, target_dir, extractor1, extractor2):
     temp_target = str(fileutils.get_temp_dir(prefix='extractcode-extract-'))
     warnings = extractor1(abs_location, temp_target)
     if TRACE:
-        logger.debug('extract_twice: temp_target: %(temp_target)r' % locals())
+        logger.debug('extract_twice: temp_target: %(temp_target)r', locals())
 
     # extract this intermediate payload to the final target_dir
     try:
@@ -390,7 +390,7 @@ def extract_twice(location, target_dir, extractor1, extractor2):
         else:
             for extracted1_loc in inner_archives:
                 if TRACE:
-                    logger.debug('extract_twice: extractor2: %(extracted1_loc)r' % locals())
+                    logger.debug('extract_twice: extractor2: %(extracted1_loc)r', locals())
                 warnings.extend(extractor2(extracted1_loc, abs_target_dir))
     finally:
         # cleanup the temporary output from extractor1
@@ -415,14 +415,14 @@ def extract_with_fallback(location, target_dir, extractor1, extractor2):
     try:
         warnings = extractor1(abs_location, temp_target1)
         if TRACE:
-            logger.debug('extract_with_fallback: temp_target1: %(temp_target1)r' % locals())
+            logger.debug('extract_with_fallback: temp_target1: %(temp_target1)r', locals())
         fileutils.copytree(temp_target1, abs_target_dir)
     except:
         try:
             temp_target2 = str(fileutils.get_temp_dir(prefix='extractcode-extract2-'))
             warnings = extractor2(abs_location, temp_target2)
             if TRACE:
-                logger.debug('extract_with_fallback: temp_target2: %(temp_target2)r' % locals())
+                logger.debug('extract_with_fallback: temp_target2: %(temp_target2)r', locals())
             fileutils.copytree(temp_target2, abs_target_dir)
         finally:
             fileutils.delete(temp_target2)
@@ -446,7 +446,7 @@ def try_to_extract(location, target_dir, extractor):
     try:
         warnings = extractor(abs_location, temp_target)
         if TRACE:
-            logger.debug('try_to_extract: temp_target: %(temp_target)r' % locals())
+            logger.debug('try_to_extract: temp_target: %(temp_target)r', locals())
         fileutils.copytree(temp_target, abs_target_dir)
     except:
         return warnings
