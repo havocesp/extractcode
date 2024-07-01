@@ -16,6 +16,7 @@ import requests
 import saneyaml
 
 from packvers import version as packaging_version
+from security import safe_requests
 
 """
 Utility to create and retrieve package and ABOUT file data from DejaCode.
@@ -47,8 +48,7 @@ def fetch_dejacode_packages(params):
     if not can_do_api_calls():
         return []
 
-    response = requests.get(
-        DEJACODE_API_URL_PACKAGES,
+    response = safe_requests.get(DEJACODE_API_URL_PACKAGES,
         params=params,
         headers=DEJACODE_API_HEADERS,
     )
@@ -94,7 +94,7 @@ def update_with_dejacode_about_data(distribution):
     if package_data:
         package_api_url = package_data["api_url"]
         about_url = f"{package_api_url}about"
-        response = requests.get(about_url, headers=DEJACODE_API_HEADERS)
+        response = safe_requests.get(about_url, headers=DEJACODE_API_HEADERS)
         # note that this is YAML-formatted
         about_text = response.json()["about_data"]
         about_data = saneyaml.load(about_text)
@@ -114,7 +114,7 @@ def fetch_and_save_about_files(distribution, dest_dir="thirdparty"):
     if package_data:
         package_api_url = package_data["api_url"]
         about_url = f"{package_api_url}about_files"
-        response = requests.get(about_url, headers=DEJACODE_API_HEADERS)
+        response = safe_requests.get(about_url, headers=DEJACODE_API_HEADERS)
         about_zip = response.content
         with io.BytesIO(about_zip) as zf:
             with zipfile.ZipFile(zf) as zi:
